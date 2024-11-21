@@ -24,8 +24,10 @@
     <main>
         <h1>FBDL Converter</h1>
         <form id="fbdlForm">
-            <label for="codearea"></label>
-            <textarea id="codearea" >
+            <div id="converterSection">
+                <div id="inputSection">
+                    <label for="codearea"></label>
+                    <textarea id="codearea">
 universe "distance"
     "close" 0 0
     "mid" 5 2
@@ -51,15 +53,16 @@ rulebase "speed"
         "high" when "distance" is "far" and "range" is "mid"
     end
 end
-            </textarea>
-            <div id="resultSection">
-                <h2>Result</h2>
-                <pre id="resultOutput"></pre>
-                <div style="display: flex; gap: 10px;">
-                    <button type="submit" id="convertButton">Convert</button>
-                    <button id="copyButton">Copy</button>
+                    </textarea>
+                    <div style="display: flex; gap: 15px;">
+                        <button type="submit" id="convertButton">Convert</button>
+                        <button id="copyButton">Copy</button>
+                    </div>                 
+                </div>            
+                <div id="outputSection">
+                    <pre id="resultOutput"></pre>
                 </div>
-            </div> 
+            </div>            
         </form>       
     </main>
 

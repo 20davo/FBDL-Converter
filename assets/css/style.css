@@ -53,6 +53,38 @@ form {
   margin-bottom: 20px;
 }
 
+#converterSection {
+  display: flex; /* Flexbox elrendezés */
+  gap: 20px; /* Távolság az input és output között */
+  justify-content: space-between; /* Egyenletes helykitöltés */
+  align-items: flex-start; /* A tartalom tetején igazít */
+  margin-top: 20px;
+}
+
+#inputSection, #outputSection {
+  flex: 1; /* Azonos szélességűek */
+  max-width: 45%; /* Maximális szélesség */
+}
+
+#inputSection textarea {
+  width: 100%;
+  height: 300px; /* Fix magasság a szövegdobozhoz */
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 14px;
+}
+
+#outputSection pre {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: Consolas, "Courier New", monospace; /* Kódszerű megjelenés */
+  font-size: 11px;
+  white-space: pre-wrap; /* Szöveg tördelése */
+  overflow-x: auto; /* Görgetés hosszú sorok esetén */
+  height: 400px; /* Fix magasság, hogy illeszkedjen az inputhoz */
+}
+
 input, select, textarea, button {
   width: 100%;
   padding: 10px;
@@ -75,6 +107,7 @@ button {
   transition: all 0.3s ease; /* Animáció hoverkor */
   display: inline-block; /* Sorba igazított megjelenés */
   margin-top: 10px; /* Távolság a többi elemtől */
+  width: 100px;
 }
 
 button:hover {

@@ -32,11 +32,12 @@ function tokenizeFBDL(fbdlCode) {
     return tokens;
 }
 
-let universes = []; // Tárolja az univerzumokat
-let universesMap = {}; // Univerzumok neve és ID-ja közti gyors kereséshez
-let rulebaseNames = []; // A rulebase nevek listája az egyediség ellenőrzéséhez
+let universes = []; // Stores the universes
+let universesMap = {}; // Quick lookup for universe names and their IDs
+let rulebaseNames = []; // List of rulebase names to check for uniqueness
 
 function convertFBDLToC(tokens) {
+    // Reset previous data
     rulebaseNames = [];
     universes = [];
     universesMap = {};
@@ -61,7 +62,7 @@ function convertFBDLToC(tokens) {
             const { newIndex, code, error } = processRulebase(tokens, i, rulebaseCounter);
             if (error) {
                 console.error(error);
-                return null; // Hibás állapot, megszakítjuk a generálást
+                return null; // Stop generation on error
             }
             cCode += code;
             rulebaseCounter++;
@@ -83,9 +84,9 @@ function processUniverse(tokens, startIndex, universeCounter) {
     let i = startIndex + 2;
 
     while (tokens[i] && tokens[i].type === 'literal') {
-        const name = tokens[i].value; // Az elem neve (pl. "close")
-        const x = parseFloat(tokens[i + 1].value); // Az elem x koordinátája
-        const y = parseFloat(tokens[i + 2].value); // Az elem y koordinátája
+        const name = tokens[i].value; // The name of the element (e.g., "close")
+        const x = parseFloat(tokens[i + 1].value); // The x coordinate of the element
+        const y = parseFloat(tokens[i + 2].value); // The y coordinate of the element
         elements.push({ name, x, y });
         i += 3;
     }
@@ -106,7 +107,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
     let cCode = "";
     const rulebaseName = tokens[startIndex + 1].value;
 
-    // Duplikált rulebase név ellenőrzése
+    // Check for duplicate rulebase names
     if (rulebaseNames.includes(rulebaseName)) {
         return { newIndex: null, code: null, error: `Duplicate rulebase name "${rulebaseName}" detected. Aborting generation.` };
     }
@@ -149,7 +150,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
 
             cCode += `FRI_addAntecedentToRule(${antecedentUniverseID}, ${antecedentConditionID});\n`;
         });
-        cCode += "\n"; // Üres sor a szabályok között
+        cCode += "\n"; // Empty line between rules
     });
 
     cCode += "\n";

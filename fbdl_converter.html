@@ -16,13 +16,13 @@
                 <li><a href="services.html">Szolgáltatások</a></li>
                 <li><a href="gallery.html">Galéria</a></li>
                 <li><a href="contact.html">Kapcsolat</a></li>
-                <li><a href="fbdl_converter.html">FBDL Konverter</a></li>
+                <li><a href="fbdl_converter.html">FBDL Converter</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>FBDL Konverter</h1>
+        <h1>FBDL Converter</h1>
         <form id="fbdlForm">
             <label for="codearea"></label>
             <textarea id="codearea" >
@@ -52,12 +52,15 @@ rulebase "speed"
     end
 end
             </textarea>
-
-            <button type="submit">Konvertálás</button>
-        </form>
-
-        <h2>Eredmény:</h2>
-        <pre id="resultOutput"></pre>
+            <div id="resultSection">
+                <h2>Result</h2>
+                <pre id="resultOutput"></pre>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" id="convertButton">Convert</button>
+                    <button id="copyButton">Copy</button>
+                </div>
+            </div> 
+        </form>       
     </main>
 
     <script src="tokenizer.js"></script>

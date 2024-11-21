@@ -1,7 +1,7 @@
 # FBDL to C Converter
 
 ## Overview
-The **FBDL to C Converter** is a JavaScript-based tool designed to convert **Fuzzy Block Description Language (FBDL)** code into C code. It processes FBDL tokens to generate C code that defines universes, rulebases, and their respective rules, maintaining compatibility with the **FRI (Fuzzy Rule Interpolation)** framework.
+The **Converter** is a JavaScript-based tool designed to convert **Fuzzy Behavior Description Language (FBDL)** code into C code. It processes FBDL tokens to generate C code that defines universes, rulebases, and their respective rules, maintaining compatibility with the **FRI (Fuzzy Rule Interpolation)** framework.
 
 ---
 

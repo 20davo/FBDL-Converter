@@ -65,16 +65,25 @@ input, select, textarea, button {
 
 /* Gomb stílusok */
 button {
-  background-color: #007acc;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 14px; /* Normál betűméret */
+  padding: 8px 15px; /* Kompaktabb belső margók */
+  border: 1px solid #007BFF; /* Kék szegély */
+  border-radius: 5px; /* Lekerekített sarkok */
+  background-color: #007BFF; /* Kék háttér */
+  color: white; /* Fehér szöveg */
+  cursor: pointer; /* Kéz kurzor hoverkor */
+  transition: all 0.3s ease; /* Animáció hoverkor */
+  display: inline-block; /* Sorba igazított megjelenés */
+  margin-top: 10px; /* Távolság a többi elemtől */
 }
 
 button:hover {
-  background-color: #005f99;
+  background-color: #0056b3; /* Sötétebb kék hoverkor */
+  border-color: #0056b3; /* Szegély színe is változik */
+}
+
+button:active {
+  background-color: #003f7f; /* Még sötétebb kék kattintáskor */
 }
 
 /* Szebb szövegdobozok */

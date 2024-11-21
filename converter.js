@@ -18,6 +18,19 @@ document.getElementById('fbdlForm').addEventListener('submit', function(event) {
     }
 });
 
+document.getElementById('copyButton').addEventListener('click', function() {
+    const resultOutput = document.getElementById('resultOutput').innerText;
+    if (resultOutput) {
+        navigator.clipboard.writeText(resultOutput).then(() => {
+            alert('Az eredmény sikeresen másolva lett a vágólapra!');
+        }).catch(err => {
+            console.error('Hiba történt a másolás közben: ', err);
+        });
+    } else {
+        alert('Nincs semmi másolható tartalom.');
+    }
+});
+
 // Tokenize FBDL code
 function tokenizeFBDL(fbdlCode) {
     let tokenizer = new Tokenizer();

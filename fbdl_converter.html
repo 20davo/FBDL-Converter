@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBDL Konverter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="codemirror.css">
+    <link rel="stylesheet" type="text/css" href="xq-light.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Főoldal</a></li>
+                <li><a href="services.html">Szolgáltatások</a></li>
+                <li><a href="gallery.html">Galéria</a></li>
+                <li><a href="contact.html">Kapcsolat</a></li>
+                <li><a href="fbdl_converter.html">FBDL Konverter</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>FBDL Konverter</h1>
+        <form id="fbdlForm">
+            <label for="codearea"></label>
+            <textarea id="codearea" >
+universe "distance"
+    "close" 0 0
+    "mid" 5 2
+    "far" 10 10
+end
+
+universe "range"
+    "close" 0 0
+    "mid" 5 2
+    "far" 10 10
+end
+
+universe "speed"
+    "low" 0 0
+    "high" 10 10
+end
+
+rulebase "speed"
+    rule
+        "low" when "distance" is "close" and "range" is "close"
+    end
+    rule
+        "high" when "distance" is "far" and "range" is "mid"
+    end
+end
+            </textarea>
+
+            <button type="submit">Konvertálás</button>
+        </form>
+
+        <h2>Eredmény:</h2>
+        <pre id="resultOutput"></pre>
+    </main>
+
+    <script src="tokenizer.js"></script>
+    <script src="codemirror.js"></script>
+    <script src="ruby.js"></script>
+    <script src="converter.js"></script>
+</body>
+</html>

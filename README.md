@@ -11,9 +11,12 @@ The **FBDL to C Converter** is a JavaScript-based tool designed to convert **Fuz
 - **Rulebase Management**: Translates `rulebase` and its associated `rules` into C code using `FRI_initRuleBaseById` and `FRI_addRuleToRulebase`.
 - **Antecedent & Consequent Mapping**: Processes antecedents and consequents to handle universes and conditions.
 - **Error Handling**:
-  - Ensures no duplicate `rulebase` names are allowed.
+  - Ensures no duplicate `universe` and `rulebase` names are allowed. If a duplicate is found, the code generation is aborted with an error message.
   - Handles invalid references to universes or conditions by assigning `-1` in the generated code and logging warnings.
-  - Skips invalid rulebases and prevents their associated rules from being generated.
+  - Skips invalid `rulebases` and prevents their associated rules from being generated.
+  - Validates that each `rule`'s consequent exists in the corresponding `rulebase` universe. If not, the invalid rule is skipped, and a warning is logged:
+    - Example below: `Rule consequent "close" not found in universe "speed". Skipping rule.`
+
 
 ---
 

@@ -18,6 +18,15 @@ document.getElementById('fbdlForm').addEventListener('submit', function(event) {
     }
 });
 
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
 document.getElementById('copyButton').addEventListener('click', function() {
     const resultOutput = document.getElementById('resultOutput').innerText;
     if (resultOutput) {

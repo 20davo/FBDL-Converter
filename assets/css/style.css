@@ -1,165 +1,157 @@
 /* Általános stílusok */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background: linear-gradient(to bottom, #f3f4f6, #e4e5e9);
   color: #333;
 }
 
-/* Navigációs menü stílusai */
+/* Navigációs menü */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(0, 122, 204, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+header.scrolled {
+  background-color: rgba(0, 122, 204, 1);
+}
+
 nav ul {
-  list-style-type: none;
-  background-color: #007acc;
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  list-style: none;
   margin: 0;
-  text-align: center;
+  padding: 10px 20px;
 }
 
 nav ul li {
-  display: inline;
-  margin-right: 20px;
+  margin: 0 15px;
 }
 
 nav ul li a {
   color: white;
   text-decoration: none;
-  padding: 10px 20px;
   font-weight: bold;
+  padding: 10px 15px;
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
-nav ul li a:hover {
-  background-color: #005f99;
+nav ul li a:hover,
+nav ul li a.active {
+  background: #005f99;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Formázás az oldal fő részéhez */
-main {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Címsor stílusok */
-h1, h2 {
+/* Hero szekció */
+main h1 {
+  font-size: 2rem;
   color: #007acc;
+  text-align: center;
 }
 
-/* Formák, gombok, és egyéb bemeneti elemek stílusai */
-form {
-  margin-bottom: 20px;
+main p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
 }
 
+/* Konvertáló szekció */
 #converterSection {
-  display: flex; /* Flexbox elrendezés */
-  gap: 20px; /* Távolság az input és output között */
-  justify-content: space-between; /* Egyenletes helykitöltés */
-  align-items: flex-start; /* A tartalom tetején igazít */
-  margin-top: 20px;
+  display: grid; /* Grid alapú elrendezés */
+  grid-template-columns: 1fr auto 1fr; /* Input - Gombok - Output */
+  gap: 30px; /* Távolság az oszlopok között */
+  justify-items: center; /* Elemek középre igazítása */
+  align-items: center; /* Vertikális igazítás */
+  background: linear-gradient(to bottom, #ffffff, #f1f1f1);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  max-width: 1200px;
+  margin: 0 auto; /* Középre igazítás */
 }
 
-#inputSection, #outputSection {
-  flex: 1; /* Azonos szélességűek */
-  max-width: 45%; /* Maximális szélesség */
+#inputSection {
+  border:
 }
 
-#inputSection textarea {
+#inputSection textarea,
+#outputSection pre {
   width: 100%;
-  height: 300px; /* Fix magasság a szövegdobozhoz */
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 #outputSection pre {
   background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-family: Consolas, "Courier New", monospace; /* Kódszerű megjelenés */
-  font-size: 11px;
-  white-space: pre-wrap; /* Szöveg tördelése */
-  overflow-x: auto; /* Görgetés hosszú sorok esetén */
-  height: 400px; /* Fix magasság, hogy illeszkedjen az inputhoz */
+  height: 430px;
+  width: 400px;
+  overflow-y: auto;
 }
 
-input, select, textarea, button {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 16px;
+/* Gombok középen */
+.button-group {
+  grid-column: 2; /* Gombok az input és output közé kerülnek */
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Távolság a gombok között */
+  margin: 0; /* Gombok vertikális középre helyezése */
 }
 
-/* Gomb stílusok */
 button {
-  font-size: 14px; /* Normál betűméret */
-  padding: 8px 15px; /* Kompaktabb belső margók */
-  border: 1px solid #007BFF; /* Kék szegély */
-  border-radius: 5px; /* Lekerekített sarkok */
-  background-color: #007BFF; /* Kék háttér */
-  color: white; /* Fehér szöveg */
-  cursor: pointer; /* Kéz kurzor hoverkor */
-  transition: all 0.3s ease; /* Animáció hoverkor */
-  display: inline-block; /* Sorba igazított megjelenés */
-  margin-top: 10px; /* Távolság a többi elemtől */
-  width: 100px;
+  font-size: 14px;
+  padding: 10px 20px;
+  background: linear-gradient(to right, #007BFF, #0056b3);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3; /* Sötétebb kék hoverkor */
-  border-color: #0056b3; /* Szegély színe is változik */
+  background: linear-gradient(to right, #0056b3, #003f7f);
+  transform: scale(1.05);
 }
 
 button:active {
-  background-color: #003f7f; /* Még sötétebb kék kattintáskor */
+  transform: scale(0.95);
 }
 
-/* Szebb szövegdobozok */
-textarea {
-  height: 150px;
-}
 
-/* Fájl feltöltési mező */
-input[type="file"] {
-  padding: 5px;
-}
-
-/* Eredmény doboz */
-pre {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  white-space: pre-wrap;
-}
-
-/* Táblázat formázás */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-}
-
-th {
+/* Lábléc */
+footer {
+  text-align: center;
+  padding: 20px;
   background-color: #007acc;
   color: white;
+  margin-top: 40px;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Egyszerűbb reszponzivitás */
-@media (max-width: 768px) {
-  nav ul li {
-      display: block;
-      margin: 10px 0;
-  }
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+footer .social-icons a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+  color: #ffcc00;
 }

@@ -6,6 +6,12 @@
   height: 350px;
   width: 450px;
   color: black;
+  background: #f9f9f9; /* Világos háttérszín */
+  border-radius: 10px; /* Lekerekített sarkok */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Finom árnyék */
+  padding: 10px; /* Belső margó */
+  overflow: hidden; /* Görgetés megelőzése */
+  position: relative;
 }
 
 /* PADDING */

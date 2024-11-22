@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FBDL Converter</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/codemirror.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/xq-light.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/codemirror.css">
+    <link rel="stylesheet" href="assets/css/xq-light.css">
 </head>
 <body>
     <header>
@@ -21,13 +21,14 @@
         </nav>
     </header>
 
-    <main>
-        <h1>FBDL Converter</h1>
-        <form id="fbdlForm">
-            <div id="converterSection">
-                <div id="inputSection">
-                    <label for="codearea"></label>
-                    <textarea id="codearea">
+    <main id="converter">
+        <section>
+            <h1>FBDL Converter</h1>
+            <p>Fast and easy FBDL to C code conversion.</p>
+            <form id="fbdlForm">
+                <div id="converterSection">
+                    <div id="inputSection">
+                        <textarea id="codearea">
 universe "distance"
     "close" 0 0
     "mid" 5 2
@@ -53,18 +54,22 @@ rulebase "speed"
         "high" when "distance" is "far" and "range" is "mid"
     end
 end
-                    </textarea>
-                    <div style="display: flex; gap: 15px;">
+                        </textarea>
+                    </div>
+                    <div class="button-group">
                         <button type="submit" id="convertButton">Convert</button>
-                        <button id="copyButton">Copy</button>
-                    </div>                 
-                </div>            
-                <div id="outputSection">
-                    <pre id="resultOutput"></pre>
+                        <button type="button" id="copyButton">Copy</button>
+                    </div>
+                    <div id="outputSection">
+                        <pre id="resultOutput"></pre>
+                    </div>
                 </div>
-            </div>            
-        </form>       
+            </form>
+        </section>
     </main>
+    <footer>
+        <p>&copy; 2024 FBDL Converter. Minden jog fenntartva.</p>
+    </footer>
 
     <script src="assets/js/tokenizer.js"></script>
     <script src="assets/js/codemirror.js"></script>

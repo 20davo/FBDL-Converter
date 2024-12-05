@@ -101,6 +101,15 @@ FRI_addAntecedentToRule(0, 2);
 FRI_addAntecedentToRule(1, 1);
 
 
+FRI_setObservationForUniverseById(0, m_observation);
+FRI_setObservationForUniverseById(1, m_observation);
+FRI_setObservationForUniverseById(2, m_observation);
+
+FRI_calculateAllRuleBases();
+
+printf("**Rulebase: %lf\n\n", FRI_getObservationById(0));
+printf("**Rulebase: %lf\n\n", FRI_getObservationById(1));
+printf("**Rulebase: %lf\n\n", FRI_getObservationById(2));
 
 return 0;
 }

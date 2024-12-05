@@ -288,11 +288,16 @@ function getUniverseCount(tokens) {
 }
 
 function getRulebaseCount(tokens) {
+    const uniqueUniverses = new Set(); // Store unique universe names
     const uniqueRulebases = new Set(); // Store unique rulebase names
     tokens.forEach(token => {
+        if (token.type === 'keyword' && token.value === 'universe') {
+            const universeName = tokens[tokens.indexOf(token) + 1]?.value; // Get the universe name
+            if (universeName) uniqueUniverses.add(universeName);
+        }
         if (token.type === 'keyword' && token.value === 'rulebase') {
             const rulebaseName = tokens[tokens.indexOf(token) + 1]?.value; // Get the rulebase name
-            if (rulebaseName) uniqueRulebases.add(rulebaseName);
+            if (rulebaseName && uniqueUniverses.has(rulebaseName)) uniqueRulebases.add(rulebaseName);
         }
     });
     return uniqueRulebases.size; // Count only unique rulebase names

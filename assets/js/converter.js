@@ -55,9 +55,8 @@ function tokenizeFBDL(fbdlCode) {
 }
 
 let universes = []; // Stores the universes
+let rulebases =[]; // Stores the rulebases
 let universesMap = {}; // Quick lookup for universe names and their IDs
-let rulebaseNames = []; // List of rulebase names to check for uniqueness
-let universeNames = []; // List of universe names to check for uniqueness
 
 const ERROR_CODE = -1;
 
@@ -66,9 +65,8 @@ function convertFBDLToC(tokens) {
     document.getElementById('resultOutput').innerText = "";
 
     // Reset previous data
-    rulebaseNames = [];
-    universeNames = [];
     universes = [];
+    rulebases =[];
     universesMap = {};
 
     let cCode = "int main(){\n\n";
@@ -105,7 +103,29 @@ function convertFBDLToC(tokens) {
         }
     }
 
+    cCode += generateInputData();
     cCode += "\nreturn 0;\n}\n";
+
+    console.log("Universes:", universes);
+    console.log("Rulebases:", rulebases);
+
+    return cCode;
+}
+
+function generateInputData() {
+    let cCode = "";
+    
+    universes.forEach(universe => {
+        cCode += `FRI_setObservationForUniverseById(${universe.id}, m_observation);\n`;
+    });
+    
+    cCode += "\n";
+    cCode += `FRI_calculateAllRuleBases();\n\n`;
+    
+    universes.forEach(universe => {
+        cCode += `printf("**Rulebase: %lf\\n\\n", FRI_getObservationById(${universe.id}));\n`;
+    });
+
     return cCode;
 }
 
@@ -114,12 +134,11 @@ function processUniverse(tokens, startIndex, universeCounter) {
     const universeName = tokens[startIndex + 1].value;
 
     // Check for duplicate universe names
-    if (universeNames.includes(universeName)) {
+    if (universes.some(u => u.name === universeName)) {
         console.warn(`Duplicate universe name "${universeName}" detected. Skipping...`);
         cCode += `// Universe "${universeName}" is invalid (duplicate)\n\n`;
         return { newIndex: startIndex + 3, code: cCode, error: null }; // Skip to 'end'
     }
-    universeNames.push(universeName);
 
     let elements = [];
     let i = startIndex + 2;
@@ -149,12 +168,11 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
     const rulebaseName = tokens[startIndex + 1].value;
 
     // Check for duplicate rulebase names
-    if (rulebaseNames.includes(rulebaseName)) {
+    if (rulebases.some(r => r.name === rulebaseName)) {
         console.warn(`Duplicate rulebase name "${rulebaseName}" detected. Skipping...`);
         cCode += `// Rulebase "${rulebaseName}" is invalid (duplicate)\n\n`;
         return { newIndex: startIndex + 3, code: cCode, error: null }; // Skip to 'end'
     }
-    rulebaseNames.push(rulebaseName);
 
     let rules = [];
     let i = startIndex + 2; // Skip 'rulebase' and its name
@@ -185,6 +203,13 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
             i++;
         }
     }
+
+    rulebases.push({
+        id: rulebaseCounter,
+        name: rulebaseName,
+        universeID: consequentUniverseID,
+        rules
+    });
 
     cCode += `FRI_initRuleBaseById(${rulebaseCounter}, ${rules.length}, ${consequentUniverseID}); // Rulebase: ${rulebaseName}\n`;
 

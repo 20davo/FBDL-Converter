@@ -76,10 +76,6 @@ main p {
   margin: 0 auto; /* Középre igazítás */
 }
 
-#inputSection {
-  border:
-}
-
 #inputSection textarea,
 #outputSection pre {
   width: 100%;
@@ -95,7 +91,7 @@ main p {
 #outputSection pre {
   background-color: #f9f9f9;
   height: 430px;
-  width: 400px;
+  width: 430px;
   overflow-y: auto;
 }
 

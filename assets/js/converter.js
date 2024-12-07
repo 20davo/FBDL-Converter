@@ -16,6 +16,12 @@ document.getElementById('fbdlForm').addEventListener('submit', function(event) {
     if (cCode) {
         document.getElementById('resultOutput').innerText = cCode;
     }
+
+    // Initialize and display the simulator
+    const simulator = new Simulator();
+    simulator.getSource = () => fbdlCode; // Use the input FBDL code
+    simulator.initialize();
+    simulator.createGui();
 });
 
 window.addEventListener('scroll', function() {
@@ -249,10 +255,20 @@ function processRule(tokens, startIndex) {
             i++; // Skip 'and'
         }
 
+        const universeName = tokens[i].value; // Universe name
+        const conditionName = tokens[i + 2].value; // Condition name
+
+        const universe = universes.find(u => u.name === universeName);
+        if (!universe) {
+            console.warn(`Universe "${universeName}" not found for antecedent "${conditionName}".`);
+        }
+
         const antecedent = {
-            universe: tokens[i].value,       // Universe name
-            condition: tokens[i + 2].value, // Condition name
+            universeID: universe ? universe.id : null, // Assign universe ID or null
+            universe: universeName,
+            condition: conditionName,
         };
+
         rule.antecedents.push(antecedent);
         i += 3; // Move to the next antecedent or 'end'
     }

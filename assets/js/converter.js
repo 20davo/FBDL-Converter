@@ -45,11 +45,21 @@ window.addEventListener('scroll', function() {
 document.getElementById('copyButton').addEventListener('click', function() {
     const resultOutput = document.getElementById('resultOutput').innerText;
     if (resultOutput) {
-        navigator.clipboard.writeText(resultOutput).then(() => {
-            alert('Az eredmény sikeresen másolva lett a vágólapra!');
-        }).catch(err => {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = resultOutput;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+            const success = document.execCommand('copy');
+            if (success) {
+                alert('Az eredmény sikeresen másolva lett a vágólapra!');
+            } else {
+                alert('A másolás nem sikerült.');
+            }
+        } catch (err) {
             console.error('Hiba történt a másolás közben: ', err);
-        });
+        }
+        document.body.removeChild(tempInput);
     } else {
         alert('Nincs semmi másolható tartalom.');
     }

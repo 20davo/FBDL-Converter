@@ -8,20 +8,29 @@ var editor = CodeMirror.fromTextArea(codeArea, {
 document.getElementById('fbdlForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
-    const fbdlCode = editor.getValue();
-    const tokens = tokenizeFBDL(fbdlCode);
-    console.log("Tokenized FBDL:", tokens);
-
-    const cCode = convertFBDLToC(tokens);
-    if (cCode) {
-        document.getElementById('resultOutput').innerText = cCode;
+    try {
+        const fbdlCode = editor.getValue();
+        
+        // Initialize and display the simulator
+        const simulator = new Simulator();
+        simulator.getSource = () => fbdlCode; // Use the input FBDL code
+        simulator.compile();
+        simulator.initialize();
+        simulator.createGui();
+        
+        const tokens = tokenizeFBDL(fbdlCode);
+        console.log("Tokenized FBDL:", tokens);
+    
+        const cCode = convertFBDLToC(tokens);
+        if (cCode) {
+            document.getElementById('resultOutput').innerText = cCode;
+        }
+    
+    } catch (error) {
+        document.getElementById('resultOutput').innerText =
+        `Error: ${error.message} (row: ${error.row}, column: ${error.column})`;
     }
 
-    // Initialize and display the simulator
-    const simulator = new Simulator();
-    simulator.getSource = () => fbdlCode; // Use the input FBDL code
-    simulator.initialize();
-    simulator.createGui();
 });
 
 window.addEventListener('scroll', function() {
@@ -230,9 +239,10 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
             const antecedentConditionID = findConditionID(antecedent.universe, antecedent.condition);
             if (antecedentConditionID === ERROR_CODE) {
                 console.warn(`Antecedent condition "${antecedent.condition}" not found in universe "${antecedent.universe}".`);
+                cCode += `FRI_addAntecedentToRule(${antecedentUniverseID}, ${antecedentConditionID}); // INVALID\n`;
+            }else {
+                cCode += `FRI_addAntecedentToRule(${antecedentUniverseID}, ${antecedentConditionID});\n`;
             }
-
-            cCode += `FRI_addAntecedentToRule(${antecedentUniverseID}, ${antecedentConditionID});\n`;
         });
         cCode += "\n"; // Empty line between rules
     });

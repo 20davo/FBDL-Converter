@@ -10,21 +10,12 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Főoldal</a></li>
-                <li><a href="services.html">Szolgáltatások</a></li>
-                <li><a href="gallery.html">Galéria</a></li>
-                <li><a href="contact.html">Kapcsolat</a></li>
-                <li><a href="fbdl_converter.html">FBDL Converter</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <main id="converter">
         <section>
-            <h1>FBDL Converter</h1>
+            <div class="fbdlIcon">
+                <img class="icon" src="assets/images/icon.png" alt="Icon">
+                <h1>FBDL Converter</h1>
+            </div>
             <p>Fast and easy FBDL to C code conversion.</p>
             <form id="fbdlForm">
                 <div id="converterSection">
@@ -57,7 +48,7 @@ rulebase "speed"
 end
                         </textarea>
                     </div>
-                    <div class="button-group">
+                    <div class="buttonSection">
                         <button type="submit" id="convertButton">Convert</button>
                         <button type="button" id="copyButton">Copy</button>
                     </div>
@@ -66,7 +57,7 @@ end
                     </div>
                     <div id="simulation">
                         <h2 style="margin-left: 20px;">Simulation</h2>
-                        <div id="bodies">
+                        <div id="simulationSection">
                             <div id="sliders"></div>
                             <div id="indicators"></div>
                         </div>

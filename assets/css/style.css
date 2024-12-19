@@ -7,58 +7,31 @@ body {
   color: #333;
 }
 
-/* Navigation menu */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: rgba(0, 122, 204, 0.9);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease-in-out;
-}
-
-header.scrolled {
-  background-color: rgba(0, 122, 204, 1);
-}
-
-nav ul {
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  margin: 0;
-  padding: 10px 20px;
-}
-
-nav ul li {
-  margin: 0 15px;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-  background: #005f99;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Hero szekció */
+/* Main */
 main h1 {
   font-size: 2rem;
-  color: #007acc;
   text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 main p {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #555;
+  font-style: oblique;
+}
+
+.fbdlIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icon {
+  width: 100px; 
+  height: 100px;
+  margin-right: 15px;
 }
 
 /* Converter */
@@ -70,12 +43,12 @@ main p {
   background: linear-gradient(to bottom, #ffffff, #f1f1f1);
   padding: 40px;
   border-radius: 15px;
+  border: 1px solid #ccc;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   max-width: 1200px;
   margin: 0 auto;
 }
 
-#inputSection textarea,
 #outputSection pre {
   width: 100%;
   border-radius: 12px;
@@ -85,17 +58,19 @@ main p {
   font-size: 12px;
   box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-}
-
-#outputSection pre {
   background-color: #f9f9f9;
   height: 430px;
   width: 430px;
   overflow-y: auto;
 }
 
+#inputSection:hover {
+  border: #dadada solid 3px;
+  border-radius: 12px;
+}
+
 /* Buttons */
-.button-group {
+.buttonSection {
   grid-column: 2;
   display: flex;
   justify-content: center;
@@ -106,7 +81,7 @@ main p {
 button {
   font-size: 14px;
   padding: 10px 20px;
-  background: linear-gradient(to right, #007BFF, #0056b3);
+  background: #025994;
   border: none;
   color: white;
   border-radius: 8px;
@@ -115,40 +90,12 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(to right, #0056b3, #003f7f);
+  background: #003971;
   transform: scale(1.05);
 }
 
 button:active {
   transform: scale(0.95);
-}
-
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 20px;
-  background-color: #007acc;
-  color: white;
-  margin-top: 40px;
-  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-}
-
-footer p {
-  margin: 0;
-  font-size: 14px;
-}
-
-footer .social-icons a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s ease;
-}
-
-footer .social-icons a:hover {
-  color: #ffcc00;
 }
 
 /* Simulation */
@@ -160,7 +107,7 @@ footer .social-icons a:hover {
   border-radius: 5px;
 }
 
-#bodies {
+#simulationSection {
   display: flex;
   gap: 2px;
   align-items: left;
@@ -182,3 +129,25 @@ div.slider {
   margin-bottom: 10px;
 }
 
+.ui-state-active {
+  background: #003971 !important;
+  border: none !important;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #003971;
+  color: white;
+  margin-top: 40px;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+  
+  

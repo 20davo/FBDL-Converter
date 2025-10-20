@@ -119,7 +119,7 @@ function convertFBDLToC(tokens) {
         }
     }
 
-    cCode += generateInputData();
+    cCode += generateFRIExecutionBlock();
     cCode += "\nreturn 0;\n}\n";
 
     console.log("Universes:", universes);
@@ -128,7 +128,7 @@ function convertFBDLToC(tokens) {
     return cCode;
 }
 
-function generateInputData() {
+function generateFRIExecutionBlock() {
     let cCode = "";
     
     universes.forEach(universe => {
@@ -270,10 +270,12 @@ function processRule(tokens, startIndex) {
         const conditionName = tokens[i + 2].value; // Condition name
 
         const universe = universes.find(u => u.name === universeName);
+        /*
         if (!universe) {
-            console.warn(`Universe "${universeName}" not found for antecedent "${conditionName}".`);
+            console.warn(`Unknown universe "${universeName}" in antecedent: when "${universeName}" is "${conditionName}".`);
         }
-
+        */
+        
         const antecedent = {
             universeID: universe ? universe.id : null, // Assign universe ID or null
             universe: universeName,
@@ -290,13 +292,13 @@ function processRule(tokens, startIndex) {
 function findConditionID(universeName, conditionName) {
     const universe = universes.find(u => u.name === universeName);
     if (!universe) {
-        console.error(`Universe ${universeName} not found! Returning -1.`);
+        console.error(`Universe "${universeName}" not found! Returning -1.`);
         return ERROR_CODE;
     }
 
     const conditionIndex = universe.elements.findIndex(el => el.name === conditionName);
     if (conditionIndex === -1) {
-        console.error(`Condition ${conditionName} not found in universe ${universeName}! Returning -1.`);
+        console.error(`Condition "${conditionName}" not found in universe "${universeName}"! Returning -1.`);
     return ERROR_CODE;
     }
 

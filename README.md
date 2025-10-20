@@ -19,7 +19,7 @@ Access the tool [here](http://fbdlconverter.nhely.hu/).
   - Handles invalid references to universes or conditions by assigning `-1` in the generated code and logging warnings.
   - Skips invalid `rulebases` and prevents their associated rules from being generated.
   - Validates that each `rule`'s consequent exists in the corresponding `rulebase` universe. If not, the invalid rule is skipped, and a warning is logged.
-- **Simulation**: A live simulation feature that allows you to interact with the generated code and visualize how the universes, rulebases, and rules interact in real-time.
+- **Simulation**: A built-in simulation feature that allows you to interact with the generated code and visualize how the universes, rulebases, and rules interact in real-time.
 
 ---
 

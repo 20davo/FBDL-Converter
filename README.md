@@ -24,29 +24,38 @@ Access the tool [here](http://fbdlconverter.nhely.hu/).
 ---
 
 ## How It Works
-1. **Input**: Paste your FBDL code into the input field.
-2. **Tokenization**: The FBDL code is parsed into tokens for structured processing.
-3. **Validation**:
-   - Checks for duplicate rulebases.
-   - Validates references to universes and conditions, etc.
-4. **Code Generation**: Produces the corresponding C code that includes the proper FRI function calls.
-5. **Output**: The generated C code is displayed in the output area.
-6. **Simulation**: The tool features a simulation section where users can modify processed `universe` parameters.
+1. **Input**: The user pastes or writes FBDL source code into the web editor.
+2. **Tokenization**: The `tokenizer.js` module parses the text into tokens, each representing syntactic elements (e.g., `universe`, `rulebase`, `rule`, etc.).
+3. **Validation**: The converter checks the model for structural correctness:
+   - Detects duplicate universe or rulebase identifiers.
+   - Ensures all antecedents and consequents reference valid universes.
+   - Logs warnings for skipped or invalid rules.
+4. **Code Generation**: The `converter.js` module generates equivalent C code with proper FRI function calls such as  
+   `FRI_initUniverseById`, `FRI_addUniverseElement`, and `FRI_addRuleToRulebase`.
+5. **Output**: The generated C code is displayed in the output editor, ready to be copied.
+6. **Simulation**:
+   - Once the conversion is successful, the interpreted FBDL model is passed to the `simulator.js` engine.
+   - The simulator (adapted from *Ethology*’s engine) dynamically builds universes and rulebases based on the parsed structure.
+   - Users can manipulate input observations (antecedent values) and immediately observe the resulting consequent values, mimicking real-time FRI behavior.
 
 ---
 
 ## Usage
-1. **Run the Converter**:
-   - Paste FBDL code into the input editor.
-   - Click the **Convert** button to generate the C code.
-2. **Check Output**:
-   - Review the generated C code for correctness.
-   - Any possible errors (e.g., duplicate rulebase names, invalid references) will be logged in the browser console.
-3. **Copy the C Code**:
-   - Use the generated code in your FRI-based projects.
-4. **Simulation**:
-   - Modify simulation parameters such as the antecedents and consequents of the rules.
-   - Observe real-time changes and outputs directly in the simulation section.
+1. **Open the Converter**  
+   Visit [fbdlconverter.nhely.hu](http://fbdlconverter.nhely.hu/) to access the tool.
+2. **Convert FBDL Code**
+   - Paste your FBDL description into the input editor.
+   - Click **Convert** to generate C code and initialize the simulation model.
+3. **Review the Output**
+   - Inspect the generated C code in the right panel.
+   - Check the browser console for validation warnings (e.g., duplicate names or invalid rule references).
+4. **Run the Simulation**
+   - Scroll to the **Simulation** section below the editors.
+   - Modify observation values for each universe using the sliders or input boxes.
+   - Observe the live calculation of consequents and rulebase outputs.
+   - The simulator recomputes results through the JavaScript implementation of the FRI logic each time inputs change.
+5. **Export or Integrate**
+   - Copy the generated C code and integrate it into your own FRI/FIVE-based embedded or desktop application.
 
 ---
 

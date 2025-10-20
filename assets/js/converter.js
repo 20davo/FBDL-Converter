@@ -71,7 +71,7 @@ function tokenizeFBDL(fbdlCode) {
 }
 
 let universes = []; // Stores the universes
-let rulebases =[]; // Stores the rulebases
+let rulebases = []; // Stores the rulebases
 let universesMap = {}; // Quick lookup for universe names and their IDs
 
 const ERROR_CODE = -1;
@@ -82,7 +82,7 @@ function convertFBDLToC(tokens) {
 
     // Reset previous data
     universes = [];
-    rulebases =[];
+    rulebases = [];
     universesMap = {};
 
     let cCode = "int main(){\n\n";

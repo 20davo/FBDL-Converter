@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-  <main id="converter">
+  <main class="converter">
     <section>
       <div class="fbdlIcon">
         <img class="icon" src="assets/images/icon.png" alt="Icon">
@@ -19,8 +19,8 @@
       <p>Fast and easy FBDL to C code conversion.</p>
 
       <form id="fbdlForm">
-        <div id="converterSection">
-          <div id="inputSection">
+        <div class="converterSection">
+          <div class="inputSection">
             <textarea id="codearea">
 universe "distance"
     "close" 0 0
@@ -55,15 +55,15 @@ end
             <button type="button" id="copyButton">Copy</button>
           </div>
 
-          <div id="outputSection">
+          <div class="outputSection">
             <pre id="resultOutput"></pre>
           </div>
 
-          <div id="simulation">
+          <div class="simulation">
             <h2 style="margin-left: 20px;">Simulation</h2>
-            <div id="simLayout">
+            <div class="simLayout">
               <div id="sliders"></div>
-              <div id="indicators"></div>
+              <div class="indicators"></div>
             </div>
           </div>
         </div>

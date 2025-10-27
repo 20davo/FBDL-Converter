@@ -32,7 +32,7 @@ main p {
 }
 
 /* Converter */
-#converterSection {
+.converterSection {
   display: grid;
   grid-template-columns: minmax(320px, 1fr) auto minmax(320px, 1fr);
   justify-items: center;
@@ -45,12 +45,12 @@ main p {
   max-width: 1200px;
   margin: 0 auto;
 }
-#outputSection {
+.outputSection {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-#outputSection pre {
+.outputSection pre {
   width: 100%;
   max-width: 430px;
   min-width: 320px;
@@ -65,7 +65,7 @@ main p {
   height: clamp(420px, 55vh, 560px);
   overflow-y: auto;
 }
-#inputSection:hover { border: #dadada solid 3px; border-radius: 12px; }
+.inputSection:hover { border: #dadada solid 3px; border-radius: 12px; }
 
 /* Buttons */
 .buttonGroup {
@@ -90,14 +90,14 @@ button:hover { background: #003971; transform: scale(1.05); }
 button:active { transform: scale(0.95); }
 
 /* Simulation */
-#simulation {
+.simulation {
   width: min(100%, 450px);
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-#simLayout {
+.simLayout {
   display: flex;
   gap: 2px;
   align-items: left;
@@ -151,7 +151,7 @@ footer p {
 
 /* Responsive */
 @media (max-width: 1100px) {
-  #converterSection {
+  .converterSection {
     grid-template-columns: 1fr;
     row-gap: 24px;
     padding: 32px;
@@ -161,7 +161,7 @@ footer p {
 @media (max-width: 900px) {
   body { font-size: 15px; }
   main h1 { font-size: 1.8rem; }
-  #converterSection { padding: 28px; }
+  .converterSection { padding: 28px; }
 }
 @media (max-width: 700px) {
   body { font-size: 14px; }
@@ -171,9 +171,9 @@ footer p {
 
 /* ==== PHONE Layout ==== */
 @media (max-width: 600px) {
-  #inputSection,
-  #outputSection,
-  #simulation {
+  .inputSection,
+  .outputSection,
+  .simulation {
     width: 100%;
     max-width: 100vw;
     min-width: 0;
@@ -183,17 +183,17 @@ footer p {
     overflow: hidden;
   }
 
-  #inputSection .CodeMirror {
+  .inputSection .CodeMirror {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     overflow: hidden;
   }
-  #inputSection .CodeMirror-scroll {
+  .inputSection .CodeMirror-scroll {
     overflow-x: auto !important;
   }
 
-  #outputSection pre {
+  .outputSection pre {
     width: 100%;
     max-width: 100%;
     min-width: 0 !important;
@@ -201,9 +201,9 @@ footer p {
     overflow-x: auto;
   }
 
-  #simLayout { flex-direction: column; align-items: stretch; gap: 8px; }
+  .simLayout { flex-direction: column; align-items: stretch; gap: 8px; }
   #sliders { margin: 0; }
-  #simulation .slider,
-  #simulation input[type="range"] { width: 100%; max-width: 100%; }
+  .simulation .slider,
+  .simulation input[type="range"] { width: 100%; max-width: 100%; }
 }
 

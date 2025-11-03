@@ -15,8 +15,8 @@ document.getElementById('fbdlForm').addEventListener('submit', function(event) {
         const simulator = new Simulator();
         simulator.getSource = () => fbdlCode; // Use the input FBDL code
         simulator.compile();
-        simulator.initialize();
-        simulator.createGui();
+        //simulator.initialize();
+        //simulator.createGui();
         
         const tokens = tokenizeFBDL(fbdlCode);
         console.log("Tokenized FBDL:", tokens);
@@ -70,20 +70,15 @@ function tokenizeFBDL(fbdlCode) {
     return tokens;
 }
 
-let universes = []; // Stores the universes
-let rulebases = []; // Stores the rulebases
-let universesMap = {}; // Quick lookup for universe names and their IDs
-
 const ERROR_CODE = -1;
 
 function convertFBDLToC(tokens) {
     // Clear previous result
     document.getElementById('resultOutput').innerText = "";
 
-    // Reset previous data
-    universes = [];
-    rulebases = [];
-    universesMap = {};
+    let universes = []; // Stores the universes
+    let rulebases = []; // Stores the rulebases
+    let universesMap = {}; // Quick lookup for universe names and their IDs
 
     let cCode = "int main(){\n\n";
     let universeCounter = 0;
@@ -97,29 +92,29 @@ function convertFBDLToC(tokens) {
         const token = tokens[i];
 
         if (token.type === 'keyword' && token.value === 'universe') {
-            const { newIndex, code, error } = processUniverse(tokens, i, universeCounter);
+            const { newIndex, code, error } = processUniverse(tokens, i, universeCounter, universes, universesMap);
+            i = newIndex;
             if (error) {
                 console.error(error);
                 continue; // Skip invalid universe and continue
             }
             cCode += code;
             universeCounter++;
-            i = newIndex;
         } else if (token.type === 'keyword' && token.value === 'rulebase') {
-            const { newIndex, code, error } = processRulebase(tokens, i, rulebaseCounter);
+            const { newIndex, code, error } = processRulebase(tokens, i, rulebaseCounter, universes, universesMap, rulebases);
+            i = newIndex;
             if (error) {
                 console.error(error);
                 continue; // Skip invalid rulebase and continue
             }
             cCode += code;
             rulebaseCounter++;
-            i = newIndex;
         } else {
             i++;
         }
     }
 
-    cCode += generateFRIExecutionBlock();
+    cCode += generateFRIExecutionBlock(universes);
     cCode += "\nreturn 0;\n}\n";
 
     console.log("Universes:", universes);
@@ -128,7 +123,7 @@ function convertFBDLToC(tokens) {
     return cCode;
 }
 
-function generateFRIExecutionBlock() {
+function generateFRIExecutionBlock(universes) {
     let cCode = "";
     
     universes.forEach(universe => {
@@ -145,7 +140,7 @@ function generateFRIExecutionBlock() {
     return cCode;
 }
 
-function processUniverse(tokens, startIndex, universeCounter) {
+function processUniverse(tokens, startIndex, universeCounter, universes, universesMap) {
     let cCode = "";
     const universeName = tokens[startIndex + 1].value;
 
@@ -179,7 +174,7 @@ function processUniverse(tokens, startIndex, universeCounter) {
     return { newIndex: i + 1, code: cCode, error: null };
 }
 
-function processRulebase(tokens, startIndex, rulebaseCounter) {
+function processRulebase(tokens, startIndex, rulebaseCounter, universes, universesMap, rulebases) {
     let cCode = "";
     const rulebaseName = tokens[startIndex + 1].value;
 
@@ -203,7 +198,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
 
     while (tokens[i] && tokens[i].value !== 'end') {
         if (tokens[i].value === 'rule') {
-            const { rule, newIndex } = processRule(tokens, i);
+            const { rule, newIndex } = processRule(tokens, i, universes);
 
             // Validate if rule consequent exists in the rulebase's universe
             const consequentExists = consequentUniverse.elements.some(el => el.name === rule.consequent);
@@ -237,7 +232,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
                 console.warn(`Antecedent universe "${antecedent.universe}" not found.`);
             }
 
-            const antecedentConditionID = findConditionID(antecedent.universe, antecedent.condition);
+            const antecedentConditionID = findConditionID(antecedent.universe, antecedent.condition, universes);
             if (antecedentConditionID === ERROR_CODE) {
                 console.warn(`Antecedent condition "${antecedent.condition}" not found in universe "${antecedent.universe}".`);
                 cCode += `FRI_addAntecedentToRule(${antecedentUniverseID}, ${antecedentConditionID}); // INVALID\n`;
@@ -252,7 +247,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter) {
     return { newIndex: i + 1, code: cCode, error: null }; // Skip 'end'
 }
 
-function processRule(tokens, startIndex) {
+function processRule(tokens, startIndex, universes) {
     let rule = { antecedents: [] };
     let i = startIndex + 1; // Skip 'rule'
 
@@ -289,7 +284,7 @@ function processRule(tokens, startIndex) {
     return { rule, newIndex: i + 1 }; // Skip 'end'
 }
 
-function findConditionID(universeName, conditionName) {
+function findConditionID(universeName, conditionName, universes) {
     const universe = universes.find(u => u.name === universeName);
     if (!universe) {
         console.error(`Universe "${universeName}" not found! Returning -1.`);

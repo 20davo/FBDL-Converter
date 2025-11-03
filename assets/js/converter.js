@@ -78,7 +78,6 @@ function convertFBDLToC(tokens) {
 
     let universes = []; // Stores the universes
     let rulebases = []; // Stores the rulebases
-    let universesMap = {}; // Quick lookup for universe names and their IDs
 
     let cCode = "int main(){\n\n";
     let universeCounter = 0;
@@ -92,7 +91,7 @@ function convertFBDLToC(tokens) {
         const token = tokens[i];
 
         if (token.type === 'keyword' && token.value === 'universe') {
-            const { newIndex, code, error } = processUniverse(tokens, i, universeCounter, universes, universesMap);
+            const { newIndex, code, error } = processUniverse(tokens, i, universeCounter, universes);
             i = newIndex;
             if (error) {
                 console.error(error);
@@ -101,7 +100,7 @@ function convertFBDLToC(tokens) {
             cCode += code;
             universeCounter++;
         } else if (token.type === 'keyword' && token.value === 'rulebase') {
-            const { newIndex, code, error } = processRulebase(tokens, i, rulebaseCounter, universes, universesMap, rulebases);
+            const { newIndex, code, error } = processRulebase(tokens, i, rulebaseCounter, universes, rulebases);
             i = newIndex;
             if (error) {
                 console.error(error);
@@ -140,7 +139,7 @@ function generateFRIExecutionBlock(universes) {
     return cCode;
 }
 
-function processUniverse(tokens, startIndex, universeCounter, universes, universesMap) {
+function processUniverse(tokens, startIndex, universeCounter, universes) {
     let cCode = "";
     const universeName = tokens[startIndex + 1].value;
 
@@ -163,7 +162,6 @@ function processUniverse(tokens, startIndex, universeCounter, universes, univers
     }
 
     universes.push({ id: universeCounter, name: universeName, elements });
-    universesMap[universeName] = universeCounter;
 
     cCode += `FRI_initUniverseById(${universeCounter}, ${elements.length}); // Universe: ${universeName}\n`;
     elements.forEach(element => {
@@ -174,7 +172,7 @@ function processUniverse(tokens, startIndex, universeCounter, universes, univers
     return { newIndex: i + 1, code: cCode, error: null };
 }
 
-function processRulebase(tokens, startIndex, rulebaseCounter, universes, universesMap, rulebases) {
+function processRulebase(tokens, startIndex, rulebaseCounter, universes, rulebases) {
     let cCode = "";
     const rulebaseName = tokens[startIndex + 1].value;
 
@@ -188,8 +186,8 @@ function processRulebase(tokens, startIndex, rulebaseCounter, universes, univers
     let rules = [];
     let i = startIndex + 2; // Skip 'rulebase' and its name
 
-    const consequentUniverseID = universesMap[rulebaseName] ?? ERROR_CODE;
     const consequentUniverse = universes.find(u => u.name === rulebaseName);
+    const consequentUniverseID = consequentUniverse ? consequentUniverse.id : ERROR_CODE;
     if (consequentUniverseID === ERROR_CODE) {
         console.warn(`Rulebase "${rulebaseName}" does not match any universe. Skipping...`);
         cCode += `FRI_initRuleBaseById(${rulebaseCounter}, 0, ${ERROR_CODE}); // Rulebase: ${rulebaseName} (INVALID)\n\n`;
@@ -227,7 +225,8 @@ function processRulebase(tokens, startIndex, rulebaseCounter, universes, univers
     rules.forEach((rule, ruleID) => {
         cCode += `FRI_addRuleToRulebase(${ruleID}, ${rule.antecedents.length});\n`;
         rule.antecedents.forEach(antecedent => {
-            const antecedentUniverseID = universesMap[antecedent.universe] ?? ERROR_CODE;
+            const antecedentUniverse = universes.find(u => u.name === antecedent.universe);
+            const antecedentUniverseID = antecedentUniverse ? antecedentUniverse.id : ERROR_CODE;
             if (antecedentUniverseID === ERROR_CODE) {
                 console.warn(`Antecedent universe "${antecedent.universe}" not found.`);
             }
@@ -256,7 +255,7 @@ function processRule(tokens, startIndex, universes) {
     i += 2; // Skip consequent and 'when'
 
     // Extract antecedents
-    while (tokens[i].value !== 'end') {
+    while (tokens[i] && tokens[i].value !== 'end') {
         if (tokens[i].value === 'and') {
             i++; // Skip 'and'
         }

@@ -223,7 +223,13 @@ function processRulebase(tokens, startIndex, rulebaseCounter, universes, rulebas
     cCode += `FRI_initRuleBaseById(${rulebaseCounter}, ${rules.length}, ${consequentUniverseID}); // Rulebase: ${rulebaseName}\n`;
 
     rules.forEach((rule, ruleID) => {
-        cCode += `FRI_addRuleToRulebase(${ruleID}, ${rule.antecedents.length});\n`;
+        const consequentElementID = findConditionID(rulebaseName, rule.consequent, universes);
+        if (consequentElementID === ERROR_CODE) {
+            console.warn(`Consequent "${rule.consequent}" not found in universe "${rulebaseName}". Skipping rule.`);
+            return; // vagy continue-szerűen: ne generálj ehhez a szabályhoz semmit
+        }
+
+        cCode += `FRI_addRuleToRulebase(${consequentElementID}, ${rule.antecedents.length});\n`;
         rule.antecedents.forEach(antecedent => {
             const antecedentUniverse = universes.find(u => u.name === antecedent.universe);
             const antecedentUniverseID = antecedentUniverse ? antecedentUniverse.id : ERROR_CODE;

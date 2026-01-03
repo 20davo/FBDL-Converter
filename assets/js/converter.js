@@ -226,7 +226,7 @@ function processRulebase(tokens, startIndex, rulebaseCounter, universes, rulebas
         const consequentElementID = findConditionID(rulebaseName, rule.consequent, universes);
         if (consequentElementID === ERROR_CODE) {
             console.warn(`Consequent "${rule.consequent}" not found in universe "${rulebaseName}". Skipping rule.`);
-            return; // vagy continue-szerűen: ne generálj ehhez a szabályhoz semmit
+            return; // Skip this rule
         }
 
         cCode += `FRI_addRuleToRulebase(${consequentElementID}, ${rule.antecedents.length});\n`;
